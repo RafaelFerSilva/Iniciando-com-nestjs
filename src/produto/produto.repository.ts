@@ -1,5 +1,7 @@
+import { Injectable } from '@nestjs/common';
 import { ProdutoEntity } from './produto.entity';
 
+@Injectable()
 export class ProdutoRepository {
   private produtos = [];
   async salvar(produto: ProdutoEntity) {
