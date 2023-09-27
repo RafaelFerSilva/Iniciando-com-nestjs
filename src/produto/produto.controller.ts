@@ -22,15 +22,15 @@ export class ProdutoController {
     const produtoEntity = new ProdutoEntity();
     produtoEntity.id = uuid();
     produtoEntity.usuerId = dadosDoProduto.usuerId;
-    produtoEntity.caracteristicas = dadosDoProduto.caracteristicas;
     produtoEntity.categoria = dadosDoProduto.categoria;
-    produtoEntity.dataAtualizacao = dadosDoProduto.dataAtualizacao;
-    produtoEntity.dataCriacao = dadosDoProduto.dataAtualizacao;
+    produtoEntity.updatedAt = dadosDoProduto.dataAtualizacao;
+    produtoEntity.createAt = dadosDoProduto.dataCriacao;
     produtoEntity.descricao = dadosDoProduto.descricao;
-    produtoEntity.imagens = dadosDoProduto.imagens;
     produtoEntity.nome = dadosDoProduto.nome;
     produtoEntity.quantidadeDisponivel - dadosDoProduto.quantidadeDisponivel;
     produtoEntity.valor = dadosDoProduto.valor;
+    // produtoEntity.caracteristicas = dadosDoProduto.caracteristicas;
+    // produtoEntity.imagens = dadosDoProduto.imagens;
     this.produtoRepository.salvar(produtoEntity);
     return dadosDoProduto;
   }

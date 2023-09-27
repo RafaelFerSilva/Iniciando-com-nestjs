@@ -12,16 +12,8 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-
-export class CaracteristicaProdutoDTO {
-  @IsString()
-  @IsNotEmpty({ message: 'Nome da cadasterística não pode ser vazia' })
-  nome: string;
-
-  @IsString()
-  @IsNotEmpty({ message: 'Descrição da característica não pode ser vazia' })
-  descricao: string;
-}
+import { ProdutoCaracteristica } from '../produto_caracteristica.entity';
+import { ProdutoImagem } from '../produto_imagem.entity';
 
 export class ImagemProdutoDTO {
   @IsUrl(undefined, { message: 'URL para imagem inválida' })
@@ -60,24 +52,24 @@ export class CriaProdutoDTO {
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(3)
-  @Type(() => CaracteristicaProdutoDTO)
-  caracteristicas: CaracteristicaProdutoDTO[];
+  @Type(() => ProdutoCaracteristica)
+  caracteristicas: ProdutoCaracteristica[];
 
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(1)
-  @Type(() => ImagemProdutoDTO)
-  imagens: ImagemProdutoDTO[];
+  @Type(() => ProdutoImagem)
+  imagens: ProdutoImagem[];
 
   @IsString()
   @IsNotEmpty({ message: 'A categoria não pode estar vazia' })
   categoria: string;
 
   @IsNotEmpty({ message: 'A data de criação não pode estar vazia' })
-  dataCriacao: Date;
+  dataCriacao: string;
 
   @IsNotEmpty({ message: 'A data de atualização não pode estar vazia' })
-  dataAtualizacao: Date;
+  dataAtualizacao: string;
 
   @IsUUID(undefined, { message: 'ID de usuário inválido' })
   usuerId: string;

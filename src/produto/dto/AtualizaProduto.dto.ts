@@ -7,31 +7,13 @@ import {
   IsOptional,
   IsPositive,
   IsString,
-  IsUrl,
   IsUUID,
   MaxLength,
   Min,
   ValidateNested,
 } from 'class-validator';
-
-export class CaracteristicaProdutoDTO {
-  @IsString()
-  @IsNotEmpty({ message: 'Nome da cadasterística não pode ser vazia' })
-  nome: string;
-
-  @IsString()
-  @IsNotEmpty({ message: 'Descrição da característica não pode ser vazia' })
-  descricao: string;
-}
-
-export class ImagemProdutoDTO {
-  @IsUrl(undefined, { message: 'URL para imagem inválida' })
-  url: string;
-
-  @IsString()
-  @IsNotEmpty({ message: 'Descrição da imagem não pode ser vazia' })
-  descricao: string;
-}
+import { ProdutoCaracteristica } from '../produto_caracteristica.entity';
+import { ProdutoImagem } from '../produto_imagem.entity';
 
 export class AtualizaProdutoDTO {
   @IsString()
@@ -65,16 +47,16 @@ export class AtualizaProdutoDTO {
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(3)
-  @Type(() => CaracteristicaProdutoDTO)
+  @Type(() => ProdutoCaracteristica)
   @IsOptional()
-  caracteristicas: CaracteristicaProdutoDTO[];
+  caracteristicas: ProdutoCaracteristica[];
 
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(1)
-  @Type(() => ImagemProdutoDTO)
+  @Type(() => ProdutoImagem)
   @IsOptional()
-  imagens: ImagemProdutoDTO[];
+  imagens: ProdutoImagem[];
 
   @IsString()
   @IsNotEmpty({ message: 'A categoria não pode estar vazia' })

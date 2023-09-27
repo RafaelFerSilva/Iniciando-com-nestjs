@@ -1,23 +1,46 @@
-interface PropsCaracteristicas {
-  nome: string;
-  descricao: string;
-}
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
+import { ProdutoCaracteristica } from './produto_caracteristica.entity';
+import { ProdutoImagem } from './produto_imagem.entity';
 
-interface PropsImagem {
-  url: string;
-  descricao: string;
-}
-
+@Entity({ name: 'produtos' })
 export class ProdutoEntity {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
-  nome: string;
-  valor: number;
-  quantidadeDisponivel: number;
-  descricao: string;
-  caracteristicas: PropsCaracteristicas[];
-  imagens: PropsImagem[];
-  categoria: string;
-  dataCriacao: Date;
-  dataAtualizacao: Date;
+
+  @Column({ name: 'userId', length: 100, nullable: false })
   usuerId: string;
+
+  @Column({ name: 'nome', length: 100, nullable: false })
+  nome: string;
+
+  @Column({ name: 'valor', nullable: false })
+  valor: number;
+
+  @Column({ name: 'quantidadeDisponivel', nullable: false })
+  quantidadeDisponivel: number;
+
+  @Column({ name: 'descricao', length: 255, nullable: false })
+  descricao: string;
+
+  @Column({ name: 'categoria', length: 100, nullable: false })
+  categoria: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createAt: string;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: string;
+
+  @DeleteDateColumn({ name: 'deleted' })
+  deletedAt: string;
+
+  caracteristicas: ProdutoCaracteristica[];
+  imagens: ProdutoImagem[];
 }
