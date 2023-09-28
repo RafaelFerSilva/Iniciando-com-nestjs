@@ -7,16 +7,16 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UsuarioRepository } from './usuario.repository';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 import { v4 as uuid } from 'uuid';
 import { UsuarioEntity } from './usuario.entity';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
+import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
 export class UsuarioController {
-  constructor(private usuarioRepository: UsuarioRepository) {}
+  constructor(private usuarioService: UsuarioService) {}
 
   @Post()
   async criaUsuario(@Body() dadosDoUsuario: CriaUsuarioDTO) {
@@ -25,7 +25,7 @@ export class UsuarioController {
     usuarioEntity.email = dadosDoUsuario.email;
     usuarioEntity.senha = dadosDoUsuario.senha;
     usuarioEntity.id = uuid();
-    this.usuarioRepository.salvar(usuarioEntity);
+    this.usuarioService.criaUsuario(usuarioEntity);
     return {
       usuario: new ListaUsuarioDTO(usuarioEntity.id, usuarioEntity.nome),
       message: 'Usuário criado com sucesso',
@@ -34,11 +34,8 @@ export class UsuarioController {
 
   @Get()
   async listarUsuarios() {
-    const usuariosSalvos = await this.usuarioRepository.listar();
-    const usuariosLista = usuariosSalvos.map(
-      (usuario) => new ListaUsuarioDTO(usuario.id, usuario.nome),
-    );
-    return usuariosLista;
+    const usuariosSalvos = await this.usuarioService.listaUsuarios();
+    return usuariosSalvos;
   }
 
   @Put('/:id')
@@ -47,7 +44,7 @@ export class UsuarioController {
     @Body() novosDados: AtualizaUsuarioDTO,
   ) {
     try {
-      const usuarioAtualizado = await this.usuarioRepository.atualiza(
+      const usuarioAtualizado = await this.usuarioService.atualizaUsuario(
         id,
         novosDados,
       );
@@ -63,7 +60,7 @@ export class UsuarioController {
   @Delete('/:id')
   async removeUsuario(@Param('id') id: string) {
     try {
-      const usuarioRemovido = await this.usuarioRepository.remove(id);
+      const usuarioRemovido = await this.usuarioService.deletaUsuario(id);
       return {
         usuario: usuarioRemovido,
         message: 'Usuário removido com sucesso',

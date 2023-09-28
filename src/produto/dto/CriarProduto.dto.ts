@@ -1,19 +1,19 @@
-import { Type } from 'class-transformer';
 import {
-  ArrayMinSize,
-  IsArray,
+  // ArrayMinSize,
+  // IsArray,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsPositive,
   IsString,
   IsUrl,
   IsUUID,
   MaxLength,
   Min,
-  ValidateNested,
+  // ValidateNested,
 } from 'class-validator';
-import { ProdutoCaracteristica } from '../produto_caracteristica.entity';
-import { ProdutoImagem } from '../produto_imagem.entity';
+// import { ProdutoCaracteristica } from '../produto_caracteristica.entity';
+// import { ProdutoImagem } from '../produto_imagem.entity';
 
 export class ImagemProdutoDTO {
   @IsUrl(undefined, { message: 'URL para imagem inválida' })
@@ -40,6 +40,7 @@ export class CriaProdutoDTO {
   @IsNumber()
   @IsPositive()
   @Min(0, { message: 'O valor da quantidade não pode ser negativo' })
+  @IsOptional()
   quantidadeDisponivel: number;
 
   @IsString()
@@ -49,17 +50,17 @@ export class CriaProdutoDTO {
   })
   descricao: string;
 
-  @ValidateNested()
-  @IsArray()
-  @ArrayMinSize(3)
-  @Type(() => ProdutoCaracteristica)
-  caracteristicas: ProdutoCaracteristica[];
+  // @ValidateNested()
+  // @IsArray()
+  // @ArrayMinSize(3)
+  // @Type(() => ProdutoCaracteristica)
+  // caracteristicas: ProdutoCaracteristica[];
 
-  @ValidateNested()
-  @IsArray()
-  @ArrayMinSize(1)
-  @Type(() => ProdutoImagem)
-  imagens: ProdutoImagem[];
+  // @ValidateNested()
+  // @IsArray()
+  // @ArrayMinSize(1)
+  // @Type(() => ProdutoImagem)
+  // imagens: ProdutoImagem[];
 
   @IsString()
   @IsNotEmpty({ message: 'A categoria não pode estar vazia' })
