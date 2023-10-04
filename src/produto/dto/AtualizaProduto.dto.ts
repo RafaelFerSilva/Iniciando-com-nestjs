@@ -12,8 +12,8 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { ProdutoCaracteristica } from '../produto_caracteristica.entity';
-import { ProdutoImagem } from '../produto_imagem.entity';
+import { ProdutoCaracteristicaEntity } from '../produto_caracteristica.entity';
+import { ProdutoImagemEntity } from '../produto_imagem.entity';
 
 export class AtualizaProdutoDTO {
   @IsString()
@@ -47,16 +47,16 @@ export class AtualizaProdutoDTO {
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(3)
-  @Type(() => ProdutoCaracteristica)
+  @Type(() => ProdutoCaracteristicaEntity)
   @IsOptional()
-  caracteristicas: ProdutoCaracteristica[];
+  caracteristicas: ProdutoCaracteristicaEntity[];
 
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(1)
-  @Type(() => ProdutoImagem)
+  @Type(() => ProdutoImagemEntity)
   @IsOptional()
-  imagens: ProdutoImagem[];
+  imagens: ProdutoImagemEntity[];
 
   @IsString()
   @IsNotEmpty({ message: 'A categoria não pode estar vazia' })

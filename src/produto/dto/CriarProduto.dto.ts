@@ -1,4 +1,7 @@
+import { Type } from 'class-transformer';
 import {
+  ArrayMinSize,
+  IsArray,
   // ArrayMinSize,
   // IsArray,
   IsNotEmpty,
@@ -10,18 +13,38 @@ import {
   IsUUID,
   MaxLength,
   Min,
+  ValidateNested,
   // ValidateNested,
 } from 'class-validator';
-// import { ProdutoCaracteristica } from '../produto_caracteristica.entity';
-// import { ProdutoImagem } from '../produto_imagem.entity';
+import { ProdutoCaracteristicaEntity } from '../produto_caracteristica.entity';
+import { ProdutoImagemEntity } from '../produto_imagem.entity';
+import { ProdutoEntity } from '../produto.entity';
+
+export class CaracteristicaProdutoDTO {
+  id: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Nome da caracteristica não pode ser vazio' })
+  nome: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Descrição da caracteristica não pode ser vazio' })
+  descrição: string;
+
+  produto: ProdutoEntity;
+}
 
 export class ImagemProdutoDTO {
+  id: string;
+
   @IsUrl(undefined, { message: 'URL para imagem inválida' })
   url: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Descrição da imagem não pode ser vazia' })
   descricao: string;
+
+  produto: ProdutoEntity;
 }
 
 export class CriaProdutoDTO {
@@ -50,17 +73,17 @@ export class CriaProdutoDTO {
   })
   descricao: string;
 
-  // @ValidateNested()
-  // @IsArray()
-  // @ArrayMinSize(3)
-  // @Type(() => ProdutoCaracteristica)
-  // caracteristicas: ProdutoCaracteristica[];
+  @ValidateNested()
+  @IsArray()
+  @ArrayMinSize(3)
+  @Type(() => ProdutoCaracteristicaEntity)
+  caracteristicas: ProdutoCaracteristicaEntity[];
 
-  // @ValidateNested()
-  // @IsArray()
-  // @ArrayMinSize(1)
-  // @Type(() => ProdutoImagem)
-  // imagens: ProdutoImagem[];
+  @ValidateNested()
+  @IsArray()
+  @ArrayMinSize(1)
+  @Type(() => ProdutoImagemEntity)
+  imagens: ProdutoImagemEntity[];
 
   @IsString()
   @IsNotEmpty({ message: 'A categoria não pode estar vazia' })

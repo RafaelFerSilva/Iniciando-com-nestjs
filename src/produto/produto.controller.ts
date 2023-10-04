@@ -29,8 +29,8 @@ export class ProdutoController {
     produtoEntity.nome = dadosDoProduto.nome;
     produtoEntity.quantidadeDisponivel - dadosDoProduto.quantidadeDisponivel;
     produtoEntity.valor = dadosDoProduto.valor;
-    // produtoEntity.caracteristicas = dadosDoProduto.caracteristicas;
-    // produtoEntity.imagens = dadosDoProduto.imagens;
+    produtoEntity.caracteristicas = dadosDoProduto.caracteristicas;
+    produtoEntity.imagens = dadosDoProduto.imagens;
     const produtoCriado = await this.produtoService.criaProduto(produtoEntity);
     return {
       produto: produtoCriado.nome,
