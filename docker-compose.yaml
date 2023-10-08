@@ -2,18 +2,19 @@ version: '3'
 
 services:
   postgres:
-    image: postgres
+    image: postgres:latest
+    restart: always
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
       PGDATA: /data/postgres
-    ports:
-      - "15432:5432"
     volumes:
       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
     networks:
-      - postgres
-    restart: unless-stopped
+      - default
       
   pgadmin:
     image: dpage/pgadmin4
@@ -21,7 +22,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${DB_ADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "16543:80"
+      - "6543:80"
     depends_on:
       - postgres
     networks:
