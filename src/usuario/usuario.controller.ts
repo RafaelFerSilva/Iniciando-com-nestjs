@@ -8,8 +8,6 @@ import {
   Put,
 } from '@nestjs/common';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
-import { v4 as uuid } from 'uuid';
-import { UsuarioEntity } from './usuario.entity';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { UsuarioService } from './usuario.service';
@@ -20,14 +18,9 @@ export class UsuarioController {
 
   @Post()
   async criaUsuario(@Body() dadosDoUsuario: CriaUsuarioDTO) {
-    const usuarioEntity = new UsuarioEntity();
-    usuarioEntity.nome = dadosDoUsuario.nome;
-    usuarioEntity.email = dadosDoUsuario.email;
-    usuarioEntity.senha = dadosDoUsuario.senha;
-    usuarioEntity.id = uuid();
-    this.usuarioService.criaUsuario(usuarioEntity);
+    const usuarioCriado = await this.usuarioService.criaUsuario(dadosDoUsuario);
     return {
-      usuario: new ListaUsuarioDTO(usuarioEntity.id, usuarioEntity.nome),
+      usuario: new ListaUsuarioDTO(usuarioCriado.id, usuarioCriado.nome),
       message: 'Usuário criado com sucesso',
     };
   }

@@ -8,10 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CriaProdutoDTO } from './dto/CriarProduto.dto';
-import { ProdutoEntity } from './produto.entity';
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
 import { ProdutoService } from './produto.service';
-import { v4 as uuid } from 'uuid';
 
 @Controller('/produtos')
 export class ProdutoController {
@@ -19,21 +17,11 @@ export class ProdutoController {
 
   @Post()
   async criarProduto(@Body() dadosDoProduto: CriaProdutoDTO) {
-    const produtoEntity = new ProdutoEntity();
-    produtoEntity.id = uuid();
-    produtoEntity.usuerId = dadosDoProduto.usuerId;
-    produtoEntity.categoria = dadosDoProduto.categoria;
-    produtoEntity.updatedAt = dadosDoProduto.dataAtualizacao;
-    produtoEntity.createAt = dadosDoProduto.dataCriacao;
-    produtoEntity.descricao = dadosDoProduto.descricao;
-    produtoEntity.nome = dadosDoProduto.nome;
-    produtoEntity.quantidadeDisponivel - dadosDoProduto.quantidadeDisponivel;
-    produtoEntity.valor = dadosDoProduto.valor;
-    produtoEntity.caracteristicas = dadosDoProduto.caracteristicas;
-    produtoEntity.imagens = dadosDoProduto.imagens;
-    const produtoCriado = await this.produtoService.criaProduto(produtoEntity);
+    const produtoCadastrado =
+      await this.produtoService.criaProduto(dadosDoProduto);
+
     return {
-      produto: produtoCriado.nome,
+      produto: produtoCadastrado.nome,
       message: 'Produto criado com sucesso',
     };
   }
