@@ -13,6 +13,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ProdutoEntity } from '../produto.entity';
+import { DeleteDateColumn } from 'typeorm';
 
 export class CaracteristicaProdutoDTO {
   id: string;
@@ -88,4 +89,7 @@ export class CriaProdutoDTO {
 
   @IsNotEmpty({ message: 'A data de atualização não pode estar vazia' })
   dataAtualizacao: string;
+
+  @DeleteDateColumn({ name: 'deleted' })
+  deletedAt: string;
 }

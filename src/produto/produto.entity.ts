@@ -46,10 +46,10 @@ export class ProdutoEntity {
   imagens: ProdutoImagemEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
-  createAt: string;
+  dataCriacao: string;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: string;
+  dataAtualizacao: string;
 
   @DeleteDateColumn({ name: 'deleted' })
   deletedAt: string;
