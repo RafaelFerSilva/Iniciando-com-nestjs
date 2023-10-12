@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { In, Repository } from 'typeorm';
@@ -35,11 +39,11 @@ export class PedidoService {
     return produtosRelacionados;
   }
 
-  private async buscarItensPedido(
+  private trataDadosDoPedido(
     dadosDoPedido: CriaPedidoDTO,
     produtosRelacionados: ProdutoEntity[],
   ) {
-    const itensPedidoEntidades = dadosDoPedido.itensPedido.map((itemPedido) => {
+    dadosDoPedido.itensPedido.forEach((itemPedido) => {
       const produtoRelacionado = produtosRelacionados.find(
         (produto) => produto.id === itemPedido.produtoId,
       );
@@ -49,9 +53,27 @@ export class PedidoService {
           `O produto com id ${itemPedido.produtoId} não foi encontrado`,
         );
       }
+
+      if (itemPedido.quantidade > produtoRelacionado.quantidadeDisponivel) {
+        throw new BadRequestException(
+          `A quantidade solicitada (${itemPedido.quantidade}) é maior do que a disponível (${produtoRelacionado.quantidadeDisponivel}) para o produto ${produtoRelacionado.nome}`,
+        );
+      }
+    });
+  }
+
+  private async buscarItensPedido(
+    dadosDoPedido: CriaPedidoDTO,
+    produtosRelacionados: ProdutoEntity[],
+  ) {
+    this.trataDadosDoPedido(dadosDoPedido, produtosRelacionados);
+    const itensPedidoEntidades = dadosDoPedido.itensPedido.map((itemPedido) => {
+      const produtoRelacionado = produtosRelacionados.find(
+        (produto) => produto.id === itemPedido.produtoId,
+      );
       const itemPedidoEntity = new ItemPedidoEntity();
-      itemPedidoEntity.produto = produtoRelacionado;
-      itemPedidoEntity.precoVenda = produtoRelacionado.valor;
+      itemPedidoEntity.produto = produtoRelacionado!;
+      itemPedidoEntity.precoVenda = produtoRelacionado!.valor;
       itemPedidoEntity.quantidade = itemPedido.quantidade;
       itemPedidoEntity.produto.quantidadeDisponivel -= itemPedido.quantidade;
       return itemPedidoEntity;

@@ -34,7 +34,7 @@ export class PedidoController {
     return pedidos;
   }
 
-  @Patch('id')
+  @Patch(':id')
   async atualizaPedido(
     @Param('id') pedidoId: string,
     @Body() dadosDeAtualizacao: AtualizaPedidoDto,
