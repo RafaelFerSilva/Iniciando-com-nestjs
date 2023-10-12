@@ -2,22 +2,16 @@ import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
-  // ArrayMinSize,
-  // IsArray,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsPositive,
   IsString,
   IsUrl,
-  IsUUID,
   MaxLength,
   Min,
   ValidateNested,
-  // ValidateNested,
 } from 'class-validator';
-import { ProdutoCaracteristicaEntity } from '../produto_caracteristica.entity';
-import { ProdutoImagemEntity } from '../produto_imagem.entity';
 import { ProdutoEntity } from '../produto.entity';
 
 export class CaracteristicaProdutoDTO {
@@ -29,7 +23,7 @@ export class CaracteristicaProdutoDTO {
 
   @IsString()
   @IsNotEmpty({ message: 'Descrição da caracteristica não pode ser vazio' })
-  descrição: string;
+  descricao: string;
 
   produto: ProdutoEntity;
 }
@@ -76,14 +70,14 @@ export class CriaProdutoDTO {
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(3)
-  @Type(() => ProdutoCaracteristicaEntity)
-  caracteristicas: ProdutoCaracteristicaEntity[];
+  @Type(() => CaracteristicaProdutoDTO)
+  caracteristicas: CaracteristicaProdutoDTO[];
 
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(1)
-  @Type(() => ProdutoImagemEntity)
-  imagens: ProdutoImagemEntity[];
+  @Type(() => ImagemProdutoDTO)
+  imagens: ImagemProdutoDTO[];
 
   @IsString()
   @IsNotEmpty({ message: 'A categoria não pode estar vazia' })
@@ -94,7 +88,4 @@ export class CriaProdutoDTO {
 
   @IsNotEmpty({ message: 'A data de atualização não pode estar vazia' })
   dataAtualizacao: string;
-
-  @IsUUID(undefined, { message: 'ID de usuário inválido' })
-  usuerId: string;
 }

@@ -7,7 +7,6 @@ import {
   IsOptional,
   IsPositive,
   IsString,
-  IsUUID,
   MaxLength,
   Min,
   ValidateNested,
@@ -70,7 +69,4 @@ export class AtualizaProdutoDTO {
   @IsNotEmpty({ message: 'A data de atualização não pode estar vazia' })
   @IsOptional()
   dataAtualizacao: Date;
-
-  @IsUUID(undefined, { message: 'ID de usuário inválido' })
-  usuerId: string;
 }

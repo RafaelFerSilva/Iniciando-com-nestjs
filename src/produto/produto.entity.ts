@@ -9,14 +9,12 @@ import {
 } from 'typeorm';
 import { ProdutoCaracteristicaEntity } from './produto_caracteristica.entity';
 import { ProdutoImagemEntity } from './produto_imagem.entity';
+import { ItemPedidoEntity } from '../pedido/item_pedido.entity';
 
 @Entity({ name: 'produtos' })
 export class ProdutoEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ name: 'userId', length: 100, nullable: false })
-  usuerId: string;
 
   @Column({ name: 'nome', length: 100, nullable: false })
   nome: string;
@@ -55,4 +53,7 @@ export class ProdutoEntity {
 
   @DeleteDateColumn({ name: 'deleted' })
   deletedAt: string;
+
+  @OneToMany(() => ItemPedidoEntity, (itemPedido) => itemPedido.produto)
+  itensPedido: ItemPedidoEntity[];
 }

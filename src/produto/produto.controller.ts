@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CriaProdutoDTO } from './dto/CriarProduto.dto';
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
-import { ProdutoService } from './produto.service';
+import { ProdutoService } from './produtoService';
 
 @Controller('/produtos')
 export class ProdutoController {
@@ -37,7 +37,7 @@ export class ProdutoController {
     @Body() novosDados: AtualizaProdutoDTO,
   ) {
     try {
-      const produtoAtualizado = await this.produtoService.atualizarProduto(
+      const produtoAtualizado = await this.produtoService.atualizaProduto(
         id,
         novosDados,
       );
